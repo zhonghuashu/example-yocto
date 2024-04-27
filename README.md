@@ -13,16 +13,14 @@ $ apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath s
 ```shell
 $ mkdir ~/yocto && cd yocto
 $ git clone -b kirkstone --depth=1 https://git.yoctoproject.org/poky
-
-$ cd src/example_app
-$ source ~/github/yocto/poky/oe-init-build-env build
-# Fix advisories: Do not use Bitbake as root.
-$ touch conf/sanity.conf
 ```
 
 ## bb_hello_print
 - bb_hello_print: [Example](https://docs.yoctoproject.org/bitbake/2.6/bitbake-user-manual/bitbake-user-manual-hello.html) from BitBake manual
 ```shell
+#
+# Run without oe-init-build-env script.
+#
 # Setting Up the BitBake Environment.
 $ cd ~/github/yocto/example-yocto/src/bb_hello_print
 $ export PATH=/root/github/yocto/poky/bitbake/bin:$PATH
@@ -31,8 +29,10 @@ $ bitbake --version
 BitBake Build Tool Core version 2.0.0
 # BitBake uses that directory to find the metadata it needs for your project.
 $ export BBPATH="/root/github/yocto/example-yocto/src/bb_hello_print"
+$ locale-gen en_US.UTF-8
 # Run BitBake With a Target.
 $ bitbake printhello
+
 
 ********************
 *                  *
@@ -44,9 +44,15 @@ $ bitbake printhello
 ## bb_hello_editor
 - bb_hello_editor: Example builds the nano text editor from source.
 ```shell
-$ export PATH=/root/github/yocto/poky/bitbake/bin:$PATH
-$ locale-gen en_US.UTF-8
+$ cd src/bb_hello_editor
+$ source ~/github/yocto/poky/oe-init-build-env build
+# Fix advisories: Do not use Bitbake as root.
+$ touch conf/sanity.conf
+# Add customer layers into build/conf/bblayers.conf: BBLAYERS
+# ?= /root/github/yocto/example-yocto/src/bb_hello_editor/meta-hello 
+
 $ bitbake nano
+
 ```
 
 ## example_app

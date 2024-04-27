@@ -1,11 +1,13 @@
 SUMMARY = "Recipe to build the 'nano' editor"
+#  This recipe must have the LICENSE field set.
+LICENSE = ""
 
 PN = "nano"
 PV = "2.2.6"
 
 SITE = "http://www.nano-editor.org/dist"
-PV_MAJOR = "${@bb.data.getVar('PV',d,1).split('.')[0]}"
-PV_MINOR = "${@bb.data.getVar('PV',d,1).split('.')[1]}"
+PV_MAJOR = "${@d.getVar('PV',d,1).split('.')[0]}"
+PV_MINOR = "${@d.getVar('PV',d,1).split('.')[1]}"
 
 SRC_URI = "${SITE}/v${PV_MAJOR}.${PV_MINOR}/${PN}-${PV}.tar.gz"
 SRC_URI[md5sum] = "03233ae480689a008eb98feb1b599807"
