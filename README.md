@@ -12,7 +12,14 @@ $ apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath s
 ## Setup build environment
 ```shell
 $ mkdir ~/yocto && cd yocto
+# Release 4.0 (kirkstone)
 $ git clone -b kirkstone --depth=1 https://git.yoctoproject.org/poky
+# Build
+$ cd poky
+# Define Yocto Project’s build environment on your build host.
+$ source oe-init-build-env
+# Build image with minimal size.
+$ bitbake core-image-minimal
 ```
 
 ## bb_hello_print
