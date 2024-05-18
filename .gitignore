@@ -1,2 +1,4 @@
 code_snippet/
 **/build
+**/bb_hello_print/tmp
+**/bitbake-cookerdaemon.log

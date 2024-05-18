@@ -14,12 +14,16 @@ $ apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath s
 $ mkdir ~/yocto && cd yocto
 # Release 4.0 (kirkstone)
 $ git clone -b kirkstone --depth=1 https://git.yoctoproject.org/poky
-# Build
-$ cd poky
 # Define Yocto Project’s build environment on your build host.
-$ source oe-init-build-env
+$ source poky/oe-init-build-env
 # Build image with minimal size.
 $ bitbake core-image-minimal
+# Simulate Your Image Using QEMU.
+# runqemu qemux86-64. Error: yocto Could not initialize SDL(x11 not available)
+$ runqemu nographic
+Poky (Yocto Project Reference Distro) 4.0.18 qemux86-64 /dev/ttyS0
+qemux86-64 login:
+
 ```
 
 ## bb_hello_print
@@ -29,14 +33,14 @@ $ bitbake core-image-minimal
 # Run without oe-init-build-env script.
 #
 # Setting Up the BitBake Environment.
-$ cd ~/github/yocto/example-yocto/src/bb_hello_print
-$ export PATH=/root/github/yocto/poky/bitbake/bin:$PATH
-$ locale-gen en_US.UTF-8
+$ cd ~/yocto/example-yocto/bb_hello_print
+$ export PATH=/home/shu/yocto/poky/bitbake/bin:$PATH
+$ sudo locale-gen en_US.UTF-8
 $ bitbake --version
 BitBake Build Tool Core version 2.0.0
 # BitBake uses that directory to find the metadata it needs for your project.
-$ export BBPATH="/root/github/yocto/example-yocto/src/bb_hello_print"
-$ locale-gen en_US.UTF-8
+$ export BBPATH="/home/shu/yocto/example-yocto/bb_hello_print"
+$ sudo locale-gen en_US.UTF-8
 # Run BitBake With a Target.
 $ bitbake printhello
 
@@ -51,12 +55,12 @@ $ bitbake printhello
 ## bb_hello_editor
 - bb_hello_editor: Example builds the nano text editor from source.
 ```shell
-$ cd src/bb_hello_editor
+$ cd bb_hello_editor
 $ source ~/github/yocto/poky/oe-init-build-env build
 # Fix advisories: Do not use Bitbake as root.
 $ touch conf/sanity.conf
 # Add customer layers into build/conf/bblayers.conf: BBLAYERS
-# ?= /root/github/yocto/example-yocto/src/bb_hello_editor/meta-hello 
+# ?= /root/github/yocto/example-yocto/bb_hello_editor/meta-hello 
 
 $ bitbake nano
 
@@ -69,3 +73,24 @@ $ cd test/hello
 # Move generated hello.tar.gz file to recipes-apps/hello
 $ tar -czvf hello.tar.gz *
 ```
+
+## meta-mylayer
+- Create customer layer.
+```shell
+# Create customer layer.
+$ cd ~/yocto
+$ source poky/oe-init-build-env
+$ cd ~/yocto/example-yocto
+$ bitbake-layers create-layer meta-mylayer
+# Add customer layer into build/conf/bbblayers.conf: BBLAYERS ?= /home/shu/yocto/example-yocto/meta-mylayer
+# Build example recipe.
+$ cd ~/yocto/build
+$ bitbake example
+NOTE: Executing Tasks
+***********************************************
+*                                             *
+*  Example recipe created by bitbake-layers   *
+*                                             *
+***********************************************
+```
+- 
