@@ -40,7 +40,6 @@ $ bitbake --version
 BitBake Build Tool Core version 2.0.0
 # BitBake uses that directory to find the metadata it needs for your project.
 $ export BBPATH="/home/shu/yocto/example-yocto/bb_hello_print"
-$ sudo locale-gen en_US.UTF-8
 # Run BitBake With a Target.
 $ bitbake printhello
 
@@ -56,9 +55,9 @@ $ bitbake printhello
 - bb_hello_editor: Example builds the nano text editor from source.
 ```shell
 $ cd bb_hello_editor
-$ source ~/github/yocto/poky/oe-init-build-env build
+$ source ~/yocto/poky/oe-init-build-env build
 # Fix advisories: Do not use Bitbake as root.
-$ touch conf/sanity.conf
+# touch conf/sanity.conf
 # Add customer layers into build/conf/bblayers.conf: BBLAYERS
 # ?= /root/github/yocto/example-yocto/bb_hello_editor/meta-hello 
 
@@ -69,7 +68,7 @@ $ bitbake nano
 ## example_app
 -  
 ```shell
-$ cd test/hello
+$ cd example-yocto/example_app/meta-mylayer/recipes-apps/hello/src
 # Move generated hello.tar.gz file to recipes-apps/hello
 $ tar -czvf hello.tar.gz *
 ```
