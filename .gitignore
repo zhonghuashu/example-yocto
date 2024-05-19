@@ -1,4 +1,7 @@
 code_snippet/
-**/build
+**/build/cache
+**/build/downloads
+**/build/sstate-cache
+**/build/tmp
 **/bb_hello_print/tmp
 **/bitbake-cookerdaemon.log
