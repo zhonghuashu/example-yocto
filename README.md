@@ -1,6 +1,6 @@
 # Introduction
 Customize embedded linux distribution using Yocto build.
-
+- VS Code extension: Yocto Project BitBake
 
 ## Setup host package
 ```shell
@@ -97,7 +97,7 @@ root@qemux86-64:~#
 ```shell
 # Append OSS dropbear to recipes-core/images/costa-embedded-image.bb
 # Build image include appended package.
-$ bitbake costa-embedded-image.bb
+$ bitbake costa-embedded-image
 # Start Linux distribution with dropbear server started.
 $ runqemu nographic
 Starting Dropbear SSH server: Generating 2048 bit rsa key
@@ -106,10 +106,24 @@ costa-embedded (Costa Embedded Linux by Yocto) 4.0.18 qemux86-64 /dev/ttyS0
 ```
 
 ### Append own developed packages
+- Build Makefile project `hello-make`
 - Refer to [添加包到镜像中](https://zhuanlan.zhihu.com/p/666675477)
+- Refer to [嵌入式Linux系统开发：基于Yocto Project](https://m.zhangyue.com/readbook/11865758/66.html?p2=111010&share=1&anchorId=) / ch 8.3.2
 - Refer to [devtool Quick Reference](https://docs.yoctoproject.org/ref-manual/devtool-reference.html)
-- 
+
 ```shell
+# 以目录hello-make-1.0前缀在包中的文件来建立正确的目录结构:
+# hello-make-1.0\hello-make-1.0\, 解压后正好为：hello-make-1.0\*
+tar --transform "s/^\./hello-make-1.0/" -czvf hello-make-1.0.tgz .
+cp -f hello-make-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/hello-make/files
+bitbake hello-make
+
+# Run hello-make in qemu device.
+root@qemux86-64:~# hello-make
+Hello, World! My first Yocto Project recipe.
+
+root@qemux86-64:~# ls /usr/bin/hello-make -lt
+-rwxr-xr-x    1 root     root         14376 Mar  9  2018 /usr/bin/hello-make
 ```
 
 ## bb_hello_print
