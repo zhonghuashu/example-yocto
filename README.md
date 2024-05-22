@@ -31,8 +31,33 @@ $ sudo killall qemu-system-x86_64
 
 ```
 
-## Customize Linux dist 
-### Customize own layer
+## Example: bb_hello_print
+- bb_hello_print: [Example](https://docs.yoctoproject.org/bitbake/2.6/bitbake-user-manual/bitbake-user-manual-hello.html) from BitBake manual
+```shell
+#
+# Run without oe-init-build-env script.
+#
+# Setting Up the BitBake Environment.
+$ cd ~/yocto/example-yocto/bb_hello_print
+$ export PATH=/home/shu/yocto/poky/bitbake/bin:$PATH
+$ sudo locale-gen en_US.UTF-8
+$ bitbake --version
+BitBake Build Tool Core version 2.0.0
+# BitBake uses that directory to find the metadata it needs for your project.
+$ export BBPATH="/home/shu/yocto/example-yocto/bb_hello_print"
+# Run BitBake With a Target.
+$ bitbake printhello
+
+
+********************
+*                  *
+*  Hello, World!   *
+*                  *
+********************
+```
+
+## Example: meta-costa-embedded
+### Create own layer
 - Refer to [定制Yocto系统](https://zhuanlan.zhihu.com/p/663983810)
 ```shell
 $ source poky/oe-init-build-env
@@ -76,7 +101,7 @@ $ bitbake -c build
 ***********************************************
 ```
 
-### Customize Linux distribution
+### Create own Linux distribution
 - Refer to [定制Yocto系统](https://zhuanlan.zhihu.com/p/663983810)
 - Customize distribution name in distro/costa-embedded.conf. 
 - Change local.conf to DISTRO from "Poky" to "costa-embedded".
@@ -92,7 +117,7 @@ costa-embedded (Costa Embedded Linux by Yocto) 4.0.18 qemux86-64 /dev/ttyS0
 qemux86-64 login: root
 root@qemux86-64:~#
 ```
-### Append OSS packages
+### Add OSS packages
 - Refer to [添加包到镜像中](https://zhuanlan.zhihu.com/p/666675477)
 ```shell
 # Append OSS dropbear to recipes-core/images/costa-embedded-image.bb
@@ -105,7 +130,7 @@ Starting syslogd/klogd: done
 costa-embedded (Costa Embedded Linux by Yocto) 4.0.18 qemux86-64 /dev/ttyS0
 ```
 
-### Append own developed packages
+### Add makefile project
 - Build Makefile project `hello-make`
 - Refer to [添加包到镜像中](https://zhuanlan.zhihu.com/p/666675477)
 - Refer to [嵌入式Linux系统开发：基于Yocto Project](https://m.zhangyue.com/readbook/11865758/66.html?p2=111010&share=1&anchorId=) / ch 8.3.2
@@ -115,8 +140,9 @@ costa-embedded (Costa Embedded Linux by Yocto) 4.0.18 qemux86-64 /dev/ttyS0
 # 以目录hello-make-1.0前缀在包中的文件来建立正确的目录结构:
 # hello-make-1.0\hello-make-1.0\, 解压后正好为：hello-make-1.0\*
 tar --transform "s/^\./hello-make-1.0/" -czvf hello-make-1.0.tgz .
-cp -f hello-make-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/hello-make/files
+mv -f hello-make-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/hello-make/files
 bitbake hello-make
+bitbake costa-embedded-image
 
 # Run hello-make in qemu device.
 root@qemux86-64:~# hello-make
@@ -126,42 +152,22 @@ root@qemux86-64:~# ls /usr/bin/hello-make -lt
 -rwxr-xr-x    1 root     root         14376 Mar  9  2018 /usr/bin/hello-make
 ```
 
-## bb_hello_print
-- bb_hello_print: [Example](https://docs.yoctoproject.org/bitbake/2.6/bitbake-user-manual/bitbake-user-manual-hello.html) from BitBake manual
+### Add cmake project
+- Build Makefile project `hello-cmake`
+
 ```shell
-#
-# Run without oe-init-build-env script.
-#
-# Setting Up the BitBake Environment.
-$ cd ~/yocto/example-yocto/bb_hello_print
-$ export PATH=/home/shu/yocto/poky/bitbake/bin:$PATH
-$ sudo locale-gen en_US.UTF-8
-$ bitbake --version
-BitBake Build Tool Core version 2.0.0
-# BitBake uses that directory to find the metadata it needs for your project.
-$ export BBPATH="/home/shu/yocto/example-yocto/bb_hello_print"
-# Run BitBake With a Target.
-$ bitbake printhello
+tar --transform "s/^\./hello-cmake-1.0/" -czvf hello-cmake-1.0.tgz .
+mv -f hello-cmake-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/hello-cmake/files
+bitbake hello-cmake
+bitbake costa-embedded-image
 
-
-********************
-*                  *
-*  Hello, World!   *
-*                  *
-********************
+# Run hello-cmake in qemu device.
+root@qemux86-64:~# hello-cmake
+Hello, World! My first Yocto Project recipe.
+root@qemux86-64:~# ls /usr/bin/hello-* -lt
+-rwxr-xr-x    1 root     root         14376 Mar  9  2018 /usr/bin/hello-cmake
+-rwxr-xr-x    1 root     root         14376 Mar  9  2018 /usr/bin/hello-make
 ```
 
-## bb_hello_editor
-- bb_hello_editor: Example builds the nano text editor from source.
-```shell
-$ cd bb_hello_editor
-$ source ~/yocto/poky/oe-init-build-env build
-# Fix advisories: Do not use Bitbake as root.
-# touch conf/sanity.conf
-# Add customer layers into build/conf/bblayers.conf: BBLAYERS
-# ?= /root/github/yocto/example-yocto/bb_hello_editor/meta-hello 
 
-$ bitbake nano
-
-```
 
