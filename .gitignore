@@ -5,4 +5,3 @@ code_snippet/
 **/build/tmp
 **/bb_hello_print/tmp
 **/bitbake-cookerdaemon.log
-meta-costa-embedded/recipes-example/hello-make/files/hello-make-1.0.tgz
