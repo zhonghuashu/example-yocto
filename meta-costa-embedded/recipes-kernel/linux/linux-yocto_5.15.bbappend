@@ -1,1 +1,2 @@
-SRC_URL += "file://smb.cfg"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+SRC_URI += "file://smp.cfg"
