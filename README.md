@@ -169,5 +169,14 @@ root@qemux86-64:~# ls /usr/bin/hello-* -lt
 -rwxr-xr-x    1 root     root         14376 Mar  9  2018 /usr/bin/hello-make
 ```
 
+### Add example recipes from Yocto manual
+- Refer to [Write a new recipe - Examples](https://docs.yoctoproject.org/4.0.18/dev-manual/new-recipe.html#examples)
+- Building a Single .c File Package: `helloworld`
+- Building a Makefile-based package: `lz4`
+- Building an Autotooled package: `hello-autotools`
+```shell
+recipetool create -o hello-autotools_2.3.bb https://ftp.gnu.org/gnu/hello/hello-2.3.tar.gz
+```
+
 
 
