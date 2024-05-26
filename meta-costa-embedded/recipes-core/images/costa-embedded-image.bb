@@ -7,4 +7,5 @@ hello-cmake \
 helloworld \
 hello-autotools \
 lz4 \
+bbexample \
 "

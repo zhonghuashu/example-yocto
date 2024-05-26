@@ -176,7 +176,28 @@ root@qemux86-64:~# ls /usr/bin/hello-* -lt
 - Building an Autotooled package: `hello-autotools`
 ```shell
 recipetool create -o hello-autotools_2.3.bb https://ftp.gnu.org/gnu/hello/hello-2.3.tar.gz
+bitbake helloworld
+bitbake lz4
+bitbake hello-autotools
+
 ```
-
-
-
+### Application Development with devtool
+- Refer to [Application Development with Extensible SDK](https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK)
+```shell
+# Generate recipe: /path/to/build/workspace/recipes/bbexample/
+devtool add bbexample https://github.com/whbruce/bbexample.git
+# Build
+devtool build bbexample
+# Run qumu / deploy bbexample to qemu
+runqemu nographic
+devtool deploy-target -s bbexample root@192.168.7.2
+# Run 
+root@qemux86-64:~# bbexample
+Hello Yocto World...
+Hello World (from a shared library!)
+# Update and commit with message "Changed bbexample message"
+# Publish recipes-bbexample with patch file 0001-Changed-bbexample-message.patch
+devtool finish bbexample meta-costa-embedded
+# Build image
+devtool build-image costa-embedded-image
+```
