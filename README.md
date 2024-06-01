@@ -181,7 +181,7 @@ bitbake lz4
 bitbake hello-autotools
 
 ```
-### Application Development with devtool
+### Application development with devtool
 - Refer to [Application Development with Extensible SDK](https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK)
 ```shell
 # Generate recipe: /path/to/build/workspace/recipes/bbexample/
@@ -200,4 +200,50 @@ Hello World (from a shared library!)
 devtool finish bbexample meta-costa-embedded
 # Build image
 devtool build-image costa-embedded-image
+```
+### Kernel development with devtool
+- Refer to [Using devtool to Patch the Kernel](https://docs.yoctoproject.org/kernel-dev/common.html#using-devtool-to-patch-the-kernel)
+```shell
+
+# Use the following devtool command to check out the code.
+devtool modify linux-yocto
+
+cd build/workspace/sources/linux-yocto
+# Edit the init/calibrate.c.
+git commit -m "calibrate: Add printk example"
+# Add yocto test driver (drivers > misc > yp_driver.c)
+git commit -m "Added yocto project driver"
+# Enable yp_driver in menuconfig.
+devtool menuconfig linux-yocto
+
+# Build the Updated Kernel Source.
+devtool build linux-yocto
+devtool build-image costa-embedded-image
+ 
+# Test new image.
+runqemu nographic
+dmesg | less
+
+# Export the Patches and Create an Append File.
+devtool finish linux-yocto meta-costa-embedded
+bitbake costa-embedded-image
+
+# Alternative Traditional Kernel Development to Patch the Kernel.
+git format-patch -1
+bitbake linux-yocto -c diffconfig
+bitbake linux-yocto -c menuconfig
+```
+
+### Kernel recipe
+```shell
+# Build linux-yocto
+bitbake virtual/kernel
+bitbake costa-embedded-image
+
+# Append kernel configuration fragment: files://smb.cfg
+runqemu nographic
+$ cat /proc/cpuinfo | grep processor
+processor       : 0
+
+
 ```
