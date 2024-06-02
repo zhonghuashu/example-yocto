@@ -181,6 +181,25 @@ bitbake lz4
 bitbake hello-autotools
 
 ```
+
+### Add example sayhello from Yocto Project Concept
+- Refer to [BitBake Task Map](https://docs.yoctoproject.org/overview-manual/concepts.html#bitbake-tasks-map)
+- `sayhello` project depends on `libhello`
+- BitBake Task Map see [SVG](https://docs.yoctoproject.org/_images/bitbake_tasks_map.svg)
+```shell
+tar --transform "s/^\./libhello-1.0/" -czvf libhello-1.0.tgz .
+mv -f libhello-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/libhello/files
+
+tar --transform "s/^\./sayhello-1.0/" -czvf sayhello-1.0.tgz .
+mv -f sayhello-1.0.tgz ~/yocto/example-yocto/meta-costa-embedded/recipes-example/sayhello/files
+
+# -v: Enable verbose output in additional to log file.
+bitbake sayhello -v
+bitbake costa-embedded-image
+
+root@qemux86-64:~# sayhello
+Hello from a Yocto demo
+```
 ### Application development with devtool
 - Refer to [Application Development with Extensible SDK](https://wiki.yoctoproject.org/wiki/Application_Development_with_Extensible_SDK)
 ```shell

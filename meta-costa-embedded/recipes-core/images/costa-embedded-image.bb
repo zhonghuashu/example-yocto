@@ -8,4 +8,5 @@ IMAGE_INSTALL:append = " \
                         hello-autotools \
                         lz4 \
                         bbexample \
+                        sayhello \
                         "
