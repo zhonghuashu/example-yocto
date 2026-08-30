@@ -14,8 +14,8 @@ $ apt install gawk wget git diffstat unzip texinfo gcc build-essential chrpath s
 - Refer to [Yocto构建流程](https://zhuanlan.zhihu.com/p/663983749)
 ```shell
 $ mkdir ~/yocto && cd yocto
-# Release 4.0 (kirkstone)
-$ git clone -b kirkstone --depth=1 https://git.yoctoproject.org/poky
+# Release 5.0 (scarthgap)
+$ git clone -b scarthgap --depth=1 https://git.yoctoproject.org/poky
 # Define Yocto Project’s build environment on your build host.
 $ source poky/oe-init-build-env
 # Build image with minimal size.
